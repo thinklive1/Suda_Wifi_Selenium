@@ -18,7 +18,8 @@
 1. 配置python环境,这点可以参考[菜鸟教程](https://www.runoob.com/python3/python3-install.html)
 2. 安装[Selenium](https://www.selenium.dev/zh-cn/documentation/webdriver/getting_started/install_library/),其实就是一句`pip install selenium`
 3. 下载你的浏览器驱动,driver,例如[chormedriver](https://googlechromelabs.github.io/chrome-for-testing/)
-4. 运行项目中的`auto_login.py`,例如在windows终端输入`python auto_login.py`
+4. 打开项目中的`auto_login.py`,把username(学号),password(密码)填成自己的,然后运行,例如在windows终端输入`python auto_login.py`
+5. 如果想定期运行,可以在windows中注册计划任务,例如设置一个每15分钟的触发器,启动一个bat文件,这个bat文件可以形如目录中的[`auto_login.bat`](./auto_login.bat)
 
 ### 对了解编程知识的人
 

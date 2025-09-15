@@ -13,8 +13,8 @@ CARRIER_MAP = {
     "@cucc": "中国联通",
     "@ctc": "中国电信"
 }
-username = "学号"
-password= "密码"
+username = "20255227054"
+password= "bldl299792458"
 
 def login():
     try:
