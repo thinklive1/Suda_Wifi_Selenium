@@ -76,9 +76,10 @@ def logout():
         print(f"注销出现错误：{e}")
 
 if __name__ == "__main__":
-    options = Options()
-    options.headless = True
-    driver = webdriver.Chrome(options=options)
+    
+    my_options = Options()
+    my_options.add_argument("--headless") 
+    driver = webdriver.Chrome(options=my_options)
     driver.get("http://10.9.1.3")
 
     try:

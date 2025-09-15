@@ -1,3 +1,3 @@
-cd %脚本目录位置%
+cd %py文件目录%
 
-python .\auto_login.pyw
+python .\auto_login.py
