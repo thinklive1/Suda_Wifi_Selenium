@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
 
 # 运营商映射关系
 CARRIER_MAP = {
@@ -75,7 +76,9 @@ def logout():
         print(f"注销出现错误：{e}")
 
 if __name__ == "__main__":
-    driver = webdriver.Chrome()
+    options = Options()
+    options.headless = True
+    driver = webdriver.Chrome(options=options)
     driver.get("http://10.9.1.3")
 
     try:
@@ -89,6 +92,5 @@ if __name__ == "__main__":
             driver.quit()
     except Exception:
         print("登录按钮未找到，未执行任何操作。")
-    time.sleep(5)
 
 
