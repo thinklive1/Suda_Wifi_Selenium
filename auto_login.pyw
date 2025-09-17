@@ -1,5 +1,4 @@
-import selenium
-import time
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -88,10 +87,16 @@ if __name__ == "__main__":
         )
         if login_button:
             login()
+            print("登录成功,正在退出")
+            driver.quit()
+            sys.exit()
         else:
             print("已经登陆,不执行操作")
             driver.quit()
+            sys.exit()
     except Exception:
         print("登录按钮未找到，未执行任何操作。")
+        driver.quit()
+        sys.exit()
 
 

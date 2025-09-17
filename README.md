@@ -13,15 +13,15 @@
 
 ### 对不了解任何编程知识的人
 
-简单地说可以分为几个步骤:
+简单地说可以分为几个步骤(实在不会就复制粘贴问问ai怎么做):
 
 1. 配置python环境,这点可以参考[菜鸟教程](https://www.runoob.com/python3/python3-install.html)
 2. 安装[Selenium](https://www.selenium.dev/zh-cn/documentation/webdriver/getting_started/install_library/),其实就是一句`pip install selenium`
 3. 下载你的浏览器驱动,driver,例如[chormedriver](https://googlechromelabs.github.io/chrome-for-testing/),本py文件是基于chorme的，用其他浏览器需要微调(不会的话问问ai)
 4. 将下载下来的driver所在目录添加到系统环境变量的path
-5. 打开项目中的`auto_login.py`,把username(学号),password(密码)填成自己的,然后运行,例如在windows终端输入`python auto_login.py`
+5. 打开项目中的`auto_login.pyw`,把username(学号),password(密码)填成自己的,然后运行,例如在windows终端输入`python auto_login.pyw`
 6. 如果想定期运行,可以在windows中注册计划任务,例如设置一个每15分钟的触发器,启动一个bat文件,这个bat文件可以形如目录中的[`auto_login.bat`](./auto_login.bat)
-7. 如果不想要弹出界面，可以将注释掉的一行 `my_options.add_argument("--headless") `取消注释(删掉#),将py文件改为pyw(.bat记得也要改)
+7. 如想要显式弹出浏览器窗口和python窗口,注释掉一行 `my_options.add_argument("--headless") `(行首加一个#),将pyw文件改为py(.bat里调用的文件名记得也要改)
 
 ### 对了解编程知识的人
 
