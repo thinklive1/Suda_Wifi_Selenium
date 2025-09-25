@@ -1,5 +1,6 @@
-import selenium
-import time
+#!C:\Users\46963\script\Suda_Wifi_Selenium\for_suda\Scripts\python.exe
+
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -45,11 +46,13 @@ def login():
         # 输入用户名
         pasword_input.clear()  # 清空输入框
         pasword_input.send_keys(password)
+        print("已输入密码")
 
         login_button = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, "//input[@value='登录']"))
         )
         login_button.click()
+        print("已进行登录")
 
     except Exception as e:
         print(f"登录出现错误：{e}")
@@ -77,21 +80,26 @@ def logout():
 
 if __name__ == "__main__":
     
-    my_options = Options()
-    my_options.add_argument("--headless") 
-    driver = webdriver.Chrome(options=my_options)
-    driver.get("http://10.9.1.3")
 
     try:
-        login_button = WebDriverWait(driver, 3).until(
+        my_options = Options()
+        my_options.add_argument("--headless") 
+        driver = webdriver.Chrome(options=my_options)
+        driver.get("http://10.9.1.3")
+        login_button = WebDriverWait(driver, 2).until(
             EC.presence_of_element_located((By.XPATH, "//input[@value='登录']"))
         )
         if login_button:
             login()
+            driver.quit()
+            sys.exit()
         else:
             print("已经登陆,不执行操作")
             driver.quit()
+            sys.exit()
     except Exception:
         print("登录按钮未找到，未执行任何操作。")
+        driver.quit()
+        sys.exit()
 
 

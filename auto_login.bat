@@ -1,3 +1,5 @@
-cd %py文件目录%
-
-python .\auto_login.py
+netsh wlan disconnect
+netsh wlan connect name= SUDA_WIFI
+cd %脚本路径%
+.\for_suda\Scripts\python.exe .\auto_login.pyw
+exit
