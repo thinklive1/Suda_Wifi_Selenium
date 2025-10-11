@@ -88,7 +88,7 @@ def logout():
 if __name__ == "__main__":
     service = ChromeService()
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     driver = webdriver.Chrome(service=service, options=options)
     try:

@@ -20,11 +20,10 @@
 3. 对比较近的版本应该不需要手动下载浏览器驱动即driver,开着梯子运行一次就会自动下载，这里放一个[chormedriver](https://googlechromelabs.github.io/chrome-for-testing/)链接,本py文件是基于chorme的，用其他浏览器需要微调(不会的话问问ai)
 4. 打开项目中的`auto_login.pyw`,把username(学号),password(密码)填成自己的,然后运行,例如在windows终端输入`python auto_login.pyw`, 这步可能稍微会有点麻烦，例如涉及到python虚拟环境的切换，不会的还是建议问ai
 6. 如果想定期运行,可以在windows中注册计划任务,例如设置一个每15分钟的触发器,启动一个bat或者ps1文件,这个bat文件可以形如本仓库中的bat和ps1文件,这里放一个教程[windows用任务计划定时执行powershell脚本](https://www.cnblogs.com/saneri/p/18740324)
-7. 项目中默认是不让弹出浏览器窗口的，这和浏览器驱动的设置项 `my_options.add_argument("--headless") `有关,将py文件改为pyw后缀会让执行时不弹出python窗口(后缀记得在脚本里也要改)
+7. 对仓库里的bat和ps1, 需要将其中的`%脚本目录%`填为pyw文件的路径, 此外这两个实例文件里使用的是我自己的的python解释器路径(我装在venv虚拟环境里), 需要改成你自己的有相关依赖的python路径
+8. 项目中默认是不让弹出浏览器窗口的，这和浏览器驱动的设置项 `my_options.add_argument("--headless") `有关,将py文件改为pyw后缀会让执行时不弹出python窗口(后缀记得在脚本里也要改)
 
 ### 对了解编程知识的人
 
 这里简单介绍一下原理,就是通过类名等属性定位前端元素,然后像人类一样点击选择这些按钮,看代码或者直接喂给ai都能很容易地自定义  
 ps1文件会ping百度官网看能不能上外网，不能的话就断开重连suda_wifi(虽然不知道什么原理，有时候连着suda_wifi久了会进不去登录页)  
-
-
