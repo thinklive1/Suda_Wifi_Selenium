@@ -1,3 +1,2 @@
-cd %脚本目录%
-.\for_suda\Scripts\python.exe .\auto_login.pyw
-exit
+@echo off
+"%~dp0.venv\Scripts\python.exe" "%~dp0auto_login.pyw"

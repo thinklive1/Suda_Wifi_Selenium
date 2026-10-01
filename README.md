@@ -1,31 +1,35 @@
-# Suda_Wifi_Selenium
+# SUDA Wi-Fi 自动登录
 
-## 这是什么?  
+Windows 上的苏大 Wi-Fi 自动连接与认证脚本。`suda_wifi_autologin.ps1` 检查能否直连公网；断网时关闭红魔馆与 Clash Verge、清理系统代理、连接 `SUDA_WIFI_5G`，再调用无头 Chrome 登录校园网。`wlan_radio_recovery.ps1` 独立负责打开 WLAN 软件无线电。
 
-一个自动登录suda wifi的python脚本
+## 准备
 
-## 不是有很多自动登录脚本了吗?
+1. 安装 Python 和 Chrome，在项目目录创建虚拟环境：`py -m venv .venv`。
+2. 安装 Selenium：`.\.venv\Scripts\python.exe -m pip install selenium`。
+3. 将 `suda_wifi_config.example.json` 复制为 `suda_wifi_config.json`，填写各运营商的账号密码，并用 `active_carrier` 指定当前运营商。默认选择中国移动。真实配置文件已被 Git 忽略。
+4. Selenium 可以自动管理 ChromeDriver。也可将与 Chrome 兼容的 `chromedriver.exe` 放在项目目录，脚本会优先使用它。驱动文件不会提交到仓库。
 
-根据我的搜索,github上大部分自动登录脚本都是基于网络请求库,也就是完全基于命令行对suda服务器发送登陆请求,这样的好处是,依赖少,纯命令行环境也能用,而缺点则是一旦苏大更改认证请求标准,就得重新改,而且写和改也较为复杂  
-本脚本则使用了Selenium(浏览器自动工具,也就是通过脚本像人一样操作浏览器的一个工具),可以模拟人类使用suda wifi登录页,这样的缺点是依赖一个浏览器驱动,配置会麻烦一点,优点则是通用性强,suda一般不会改登录页的前端元素,就是改了重新定位也不难
+## 注册 Windows 计划任务
 
-## 如何使用?
+在**管理员 PowerShell** 中进入项目目录，执行：
 
-### 对不了解任何编程知识的人
+```powershell
+.\register_windows_tasks.ps1
+```
 
-简单地说可以分为几个步骤:
+脚本会注册两个隐藏任务，以 SYSTEM 身份运行，无需用户登录：
 
-1. 配置python环境,这点可以参考[菜鸟教程](https://www.runoob.com/python3/python3-install.html)
-2. 安装[Selenium](https://www.selenium.dev/zh-cn/documentation/webdriver/getting_started/install_library/),其实就是一句`pip install selenium`
-3. 对比较近的版本应该不需要手动下载浏览器驱动即driver,开着梯子运行一次就会自动下载，这里放一个[chormedriver](https://googlechromelabs.github.io/chrome-for-testing/)链接,本py文件是基于chorme的，用其他浏览器需要微调(不会的话问问ai)
-4. 打开项目中的`auto_login.pyw`,把username(学号),password(密码)填成自己的,然后运行,例如在windows终端输入`python auto_login.pyw`, 这步可能稍微会有点麻烦，例如涉及到python虚拟环境的切换，不会的还是建议问ai
-5. 这里默认是中国联通运营商, 这里可以根据这行`select.select_by_value("@cucc")  # 通过值选择`来改, pyw文件的开头有运营商映射表，例如如果是移动，就将`cucc`改成`zgyd`
-6. 如果想定期运行,可以在windows中注册计划任务,例如设置一个每15分钟的触发器,启动一个bat或者ps1文件,这个bat文件可以形如本仓库中的bat和ps1文件,这里放一个教程[windows用任务计划定时执行powershell脚本](https://www.cnblogs.com/saneri/p/18740324)
-7. 对仓库里的bat和ps1, 需要将其中的`%脚本目录%`填为pyw文件的路径, 此外这两个实例文件里使用的是我自己的的python解释器路径(我装在venv虚拟环境里), 需要改成你自己的有相关依赖的python路径
-8. 项目中默认是不让弹出浏览器窗口的，这和浏览器驱动的设置项 `my_options.add_argument("--headless") `有关,将py文件改为pyw后缀会让执行时不弹出python窗口(后缀记得在脚本里也要改)
-9. 如果苏大以后改了api运行不了, 可以提issue
+- `SUDA-WiFi-AutoLogin`：开机后 30 秒运行，之后每 5 分钟运行一次。
+- `SUDA-WLAN-RadioRecovery`：开机后 15 秒运行，之后每分钟运行一次。
 
-### 对了解编程知识的人
+两者均设置为“已有实例运行时忽略新实例”，防止并发断开 Wi-Fi。登录任务检测外网时直接连接公共 HTTPS 站点；只有外网不可用才会关闭代理软件、清除系统代理并尝试重连。系统代理的目标用户 SID 在注册任务时自动写入任务参数。
 
-这里简单介绍一下原理,就是通过类名等属性定位前端元素,然后像人类一样点击选择这些按钮,看代码或者直接喂给ai都能很容易地自定义  
-ps1文件会ping百度官网看能不能上外网，不能的话就断开重连suda_wifi(虽然不知道什么原理，有时候连着suda_wifi久了会进不去登录页)  
+如需一并注册 UU 远程进程守护任务，可运行：
+
+```powershell
+.\register_windows_tasks.ps1 -IncludeUuRemote
+```
+
+`UU-Remote-Watchdog` 每分钟检查一次 UU 远程是否运行，缺失时启动。它使用当前用户的交互式会话，并通过 `wscript.exe` 静默启动；用户未登录时不会运行。UU 远程安装路径从 Windows 的已安装程序信息中读取。
+
+运行日志分别写入项目目录中的 `suda_wifi_autologin.log`、`wlan_radio_recovery.log` 和 `uu_remote_watchdog.log`，均被 Git 忽略。

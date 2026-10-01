@@ -1,0 +1,9 @@
+{
+  "active_carrier": "中国移动",
+  "accounts": {
+    "校园网": { "username": "", "password": "" },
+    "中国移动": { "username": "填写你的账号", "password": "填写你的密码" },
+    "中国联通": { "username": "", "password": "" },
+    "中国电信": { "username": "", "password": "" }
+  }
+}
